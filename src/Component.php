@@ -3,6 +3,7 @@ namespace PoP\APIMirrorQuery;
 
 use PoP\Root\Component\AbstractComponent;
 use PoP\APIMirrorQuery\Config\ServiceConfiguration;
+use PoP\Root\Component\YAMLServicesTrait;
 
 /**
  * Initialize component
@@ -10,13 +11,14 @@ use PoP\APIMirrorQuery\Config\ServiceConfiguration;
 class Component extends AbstractComponent
 {
     // const VERSION = '0.1.0';
-
+    use YAMLServicesTrait;
     /**
      * Initialize services
      */
     public static function init()
     {
         parent::init();
+        self::initYAMLServices(dirname(__DIR__));
         ServiceConfiguration::init();
     }
 }
