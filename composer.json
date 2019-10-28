@@ -19,8 +19,7 @@
     "prefer-stable": true,
     "require": {
         "php" : "~7.1",
-        "getpop/api": "^1.0@dev",
-        "getpop/migrate-api-mirrorquery": "^1.0@dev"
+        "getpop/api": "^1.0@dev"
     },
     "require-dev": {
         "phpunit/phpunit" : ">=7.0",
