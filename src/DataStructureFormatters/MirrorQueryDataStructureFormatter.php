@@ -2,10 +2,10 @@
 namespace PoP\APIMirrorQuery\DataStructureFormatters;
 use PoP\ComponentModel\Facades\Schema\FieldQueryInterpreterFacade;
 use PoP\ComponentModel\Facades\Schema\FeedbackMessageStoreFacade;
-use PoP\ComponentModel\DataStructure\AbstractDataStructureFormatter;
+use PoP\ComponentModel\DataStructure\AbstractJSONDataStructureFormatter;
 use PoP\ComponentModel\Engine_Vars;
 
-class MirrorQueryDataStructureFormatter extends AbstractDataStructureFormatter
+class MirrorQueryDataStructureFormatter extends AbstractJSONDataStructureFormatter
 {
     public const NAME = 'mirrorquery';
     public static function getName() {
