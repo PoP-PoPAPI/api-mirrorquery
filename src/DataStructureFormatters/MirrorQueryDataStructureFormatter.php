@@ -32,7 +32,8 @@ class MirrorQueryDataStructureFormatter extends AbstractJSONDataStructureFormatt
             foreach ($datasetModuleData as $moduleName => $dbObjectIDs) {
                 $dbKeyPaths = $data['datasetmodulesettings'][$moduleName]['dbkeys'] ?? [];
                 $dbObjectIDorIDs = $dbObjectIDs['dbobjectids'];
-                $this->addData($ret, $fields, $databases, $convertibleDBKeyIDs, $dbObjectIDorIDs, 'id', $dbKeyPaths, false);
+                $dbKey = $dbKeyPaths['id'];
+                $this->addData($ret, $fields, $databases, $convertibleDBKeyIDs, $dbKey, $dbObjectIDorIDs, 'id', $dbKeyPaths, false);
             }
         }
 
@@ -82,7 +83,7 @@ class MirrorQueryDataStructureFormatter extends AbstractJSONDataStructureFormatt
     //     return $ret;
     // }
 
-    protected function addData(&$ret, $fields, &$databases, &$convertibleDBKeyIDs, $dbObjectIDorIDs, $dbObjectKeyPath, &$dbKeyPaths, $concatenateField = true)
+    protected function addData(&$ret, $fields, &$databases, &$convertibleDBKeyIDs, $dbKey, $dbObjectIDorIDs, $dbObjectKeyPath, &$dbKeyPaths, $concatenateField = true)
     {
         // Property fields have numeric key only. From them, obtain the fields to print for the object
         $propertyFields = array_filter(
@@ -101,19 +102,21 @@ class MirrorQueryDataStructureFormatter extends AbstractJSONDataStructureFormatt
                 // Add a new array for this DB object, where to return all its properties
                 $ret[] = [];
                 $dbObjectRet = &$ret[count($ret)-1];
-                $this->addDBObjectData($dbObjectRet, $propertyFields, $nestedFields, $databases, $convertibleDBKeyIDs, $dbObjectID, $dbObjectKeyPath, $dbKeyPaths, $concatenateField);
+                $this->addDBObjectData($dbObjectRet, $propertyFields, $nestedFields, $databases, $convertibleDBKeyIDs, $dbKey, $dbObjectID, $dbObjectKeyPath, $dbKeyPaths, $concatenateField);
             }
         }
         else {
             $dbObjectID = $dbObjectIDorIDs;
-            $this->addDBObjectData($ret, $propertyFields, $nestedFields, $databases, $convertibleDBKeyIDs, $dbObjectID, $dbObjectKeyPath, $dbKeyPaths, $concatenateField);
+            $this->addDBObjectData($ret, $propertyFields, $nestedFields, $databases, $convertibleDBKeyIDs, $dbKey, $dbObjectID, $dbObjectKeyPath, $dbKeyPaths, $concatenateField);
         }
     }
 
-    protected function addDBObjectData(&$dbObjectRet, $propertyFields, $nestedFields, &$databases, &$convertibleDBKeyIDs, $dbObjectID, $dbObjectKeyPath, &$dbKeyPaths, $concatenateField)
+    protected function addDBObjectData(&$dbObjectRet, $propertyFields, $nestedFields, &$databases, &$convertibleDBKeyIDs, $dbKey, $dbObjectID, $dbObjectKeyPath, &$dbKeyPaths, $concatenateField)
     {
-        // Add all properties requested from the object
-        $dbKey = $dbKeyPaths[$dbObjectKeyPath];
+
+        // // Add all properties requested from the object
+        // $dbKey = $dbKeyPaths[$dbObjectKeyPath];
+
         // If it is a convertible type resolver, take the dbKey from the ID itself
         list(
             $dbKey,
@@ -151,8 +154,12 @@ class MirrorQueryDataStructureFormatter extends AbstractJSONDataStructureFormatt
                         // The first field, "id", needs not be concatenated. All the others do need
                         $nextField = ($concatenateField ? $dbObjectKeyPath.'.' : '').$nestedFieldOutputKey;
 
+                        $nextDBKey = $dbKeyPaths[$nextField];
+
                         // The type with ID may be stored under $convertibleDBKeyIDs
                         $convertibleDBKeyID = $convertibleDBKeyIDs[$dbKey][$dbObjectID][$nestedFieldOutputKey];
+
+                        $nextDBObjectIDorIDs = $convertibleDBKeyID ?? $dbObject[$nestedFieldOutputKey];
 
                         // Add a new subarray for the nested property
                         $dbObjectNestedPropertyRet = &$dbObjectRet[$nestedFieldOutputKey];
@@ -178,7 +185,7 @@ class MirrorQueryDataStructureFormatter extends AbstractJSONDataStructureFormatt
                                     }
                                 }
                             }
-                            $this->addData($dbObjectNestedPropertyRet, $nestedPropertyFields, $databases, $convertibleDBKeyIDs, $convertibleDBKeyID ?? $dbObject[$nestedFieldOutputKey], $nextField, $dbKeyPaths);
+                            $this->addData($dbObjectNestedPropertyRet, $nestedPropertyFields, $databases, $convertibleDBKeyIDs, $nextDBKey, $nextDBObjectIDorIDs, $nextField, $dbKeyPaths);
                         }
                     }
                 }
