@@ -119,7 +119,7 @@ class MirrorQueryDataStructureFormatter extends AbstractJSONDataStructureFormatt
             list(
                 $dbKey,
                 $dbObjectID
-            ) = ConvertibleTypeHelpers::extractDBKeyAndResultItemID(
+            ) = ConvertibleTypeHelpers::extractDBObjectTypeAndID(
                 $dbObjectID
             );
         }
