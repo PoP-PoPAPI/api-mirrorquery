@@ -115,7 +115,7 @@ class MirrorQueryDataStructureFormatter extends AbstractJSONDataStructureFormatt
         // Add all properties requested from the object
         $dbKey = $dbKeyPaths[$dbObjectKeyPath];
         // If the type data resolver is convertible, extract the dbKey from the ID itself
-        if (ConvertibleTypeHelpers::isConvertibleDBKey($dbKey)) {
+        if (ConvertibleTypeHelpers::isConvertibleType($dbKey)) {
             list(
                 $dbKey,
                 $dbObjectID
