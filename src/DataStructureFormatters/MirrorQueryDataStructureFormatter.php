@@ -26,7 +26,7 @@ class MirrorQueryDataStructureFormatter extends AbstractJSONDataStructureFormatt
         // getting the data from the corresponding dbKeyPath
         $ret = [];
         if ($fields = $this->getFields()) {
-            $databases = $data['databases'] ?? [];
+            $databases = $data['dbData'] ?? [];
             $convertibleDBKeyIDs = $data['convertibleDBKeyIDs'] ?? [];
             $datasetModuleData = $data['datasetmoduledata'] ?? [];
             foreach ($datasetModuleData as $moduleName => $dbObjectIDs) {
@@ -50,7 +50,7 @@ class MirrorQueryDataStructureFormatter extends AbstractJSONDataStructureFormatt
     //         $vars = \PoP\ComponentModel\Engine_Vars::getVars();
     //         $dataoutputmode = $vars['dataoutputmode'];
 
-    //         $databases = $data['databases'] ?? [];
+    //         $databases = $data['dbData'] ?? [];
     //         $datasetModuleData = $data['datasetmoduledata'] ?? [];
     //         $datasetModuleSettings = $data['datasetmodulesettings'] ?? [];
     //         if ($dataoutputmode == GD_URLPARAM_DATAOUTPUTMODE_SPLITBYSOURCES) {
