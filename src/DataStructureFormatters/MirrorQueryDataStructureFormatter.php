@@ -114,6 +114,10 @@ class MirrorQueryDataStructureFormatter extends AbstractJSONDataStructureFormatt
     {
         // Add all properties requested from the object
         $dbKey = $dbKeyPaths[$dbObjectKeyPath];
+        // If there is no dbKey, it is an error (eg: requesting posts.cats.saranga)
+        if (!$dbKey) {
+            return;
+        }
         // If the type data resolver is convertible, extract the dbKey from the ID itself
         if (ConvertibleTypeHelpers::isConvertibleType($dbKey)) {
             list(
@@ -135,7 +139,6 @@ class MirrorQueryDataStructureFormatter extends AbstractJSONDataStructureFormatt
 
         // Add the nested levels
         foreach ($nestedFields as $nestedField => $nestedPropertyFields) {
-
             $nestedFieldOutputKey = FieldQueryInterpreterFacade::getInstance()->getFieldOutputKey($nestedField);
             // If the key doesn't exist, then do nothing. This supports the "skip output if null" behaviour: if it is to be skipped, there will be no value (which is different than a null)
             if (array_key_exists($nestedFieldOutputKey, $dbObject)) {
