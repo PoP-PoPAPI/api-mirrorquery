@@ -1,7 +1,7 @@
 <?php
 namespace PoP\APIMirrorQuery\DataStructureFormatters;
 use PoP\ComponentModel\Engine_Vars;
-use PoP\ComponentModel\TypeResolvers\ConvertibleTypeHelpers;
+use PoP\ComponentModel\TypeResolvers\UnionTypeHelpers;
 use PoP\ComponentModel\Facades\Schema\FeedbackMessageStoreFacade;
 use PoP\ComponentModel\Facades\Schema\FieldQueryInterpreterFacade;
 use PoP\ComponentModel\DataStructure\AbstractJSONDataStructureFormatter;
@@ -119,11 +119,11 @@ class MirrorQueryDataStructureFormatter extends AbstractJSONDataStructureFormatt
             return;
         }
         // If the type data resolver is convertible, extract the dbKey from the ID itself
-        if (ConvertibleTypeHelpers::isConvertibleType($dbKey)) {
+        if (UnionTypeHelpers::isUnionType($dbKey)) {
             list(
                 $dbKey,
                 $dbObjectID
-            ) = ConvertibleTypeHelpers::extractDBObjectTypeAndID(
+            ) = UnionTypeHelpers::extractDBObjectTypeAndID(
                 $dbObjectID
             );
         }
