@@ -112,20 +112,24 @@ class MirrorQueryDataStructureFormatter extends AbstractJSONDataStructureFormatt
 
     protected function addDBObjectData(&$dbObjectRet, $propertyFields, $nestedFields, &$databases, &$unionDBKeyIDs, $dbObjectID, $dbObjectKeyPath, &$dbKeyPaths, $concatenateField)
     {
-        // Add all properties requested from the object
-        $dbKey = $dbKeyPaths[$dbObjectKeyPath];
-        // If there is no dbKey, it is an error (eg: requesting posts.cats.saranga)
-        if (!$dbKey) {
-            return;
-        }
-        // If the type data resolver is union, extract the dbKey from the ID itself
-        if (UnionTypeHelpers::isUnionType($dbKey)) {
+        // Execute for all fields other than the first one, "root", for both UnionTypeResolvers and non-union ones
+        // This is because if it's a relational field that comes after a UnionTypeResolver, its dbKey could not be inferred (since it depends from the dbObject, and can't be obtained in the settings, where "dbkeys" is obtained and which doesn't depend on data items)
+        // Eg: /?query=content.comments.id. In this case, "content" is handled by UnionTypeResolver, and "comments" would not be found since its entry can't be added under "datasetmodulesettings.dbkeys", since the module (of class AbstractRelationalFieldQueryDataModuleProcessor) with a UnionTypeResolver can't resolve the 'succeeding-typeResolver' to set to its submodules
+        // if (UnionTypeHelpers::isUnionType($dbKey))
+        if ($concatenateField) {
             list(
                 $dbKey,
                 $dbObjectID
             ) = UnionTypeHelpers::extractDBObjectTypeAndID(
                 $dbObjectID
             );
+        } else {
+            // Add all properties requested from the object
+            $dbKey = $dbKeyPaths[$dbObjectKeyPath];
+        }
+        // If there is no dbKey, it is an error (eg: requesting posts.cats.saranga)
+        if (!$dbKey) {
+            return;
         }
 
         $dbObject = $databases[$dbKey][$dbObjectID] ?? [];
