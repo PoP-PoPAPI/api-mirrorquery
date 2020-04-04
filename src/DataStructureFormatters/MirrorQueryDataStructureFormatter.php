@@ -1,10 +1,11 @@
 <?php
 namespace PoP\APIMirrorQuery\DataStructureFormatters;
-use PoP\ComponentModel\Engine_Vars;
+
 use PoP\ComponentModel\TypeResolvers\UnionTypeHelpers;
 use PoP\ComponentModel\Facades\Schema\FeedbackMessageStoreFacade;
 use PoP\ComponentModel\Facades\Schema\FieldQueryInterpreterFacade;
 use PoP\ComponentModel\DataStructure\AbstractJSONDataStructureFormatter;
+use PoP\ComponentModel\State\ApplicationState;
 
 class MirrorQueryDataStructureFormatter extends AbstractJSONDataStructureFormatter
 {
@@ -16,7 +17,7 @@ class MirrorQueryDataStructureFormatter extends AbstractJSONDataStructureFormatt
     protected function getFields()
     {
         // Allow REST to override with default fields
-        $vars = Engine_Vars::getVars();
+        $vars = ApplicationState::getVars();
         return $vars['query'];
     }
 
@@ -47,7 +48,7 @@ class MirrorQueryDataStructureFormatter extends AbstractJSONDataStructureFormatt
     //     if ($fields = $this->getFields()) {
     //         $engine = EngineFacade::getInstance();
     //         list($has_extra_routes) = $engine->listExtraRouteVars();
-    //         $vars = \PoP\ComponentModel\Engine_Vars::getVars();
+    //         $vars = ApplicationState::getVars();
     //         $dataoutputmode = $vars['dataoutputmode'];
 
     //         $databases = $data['dbData'] ?? [];
