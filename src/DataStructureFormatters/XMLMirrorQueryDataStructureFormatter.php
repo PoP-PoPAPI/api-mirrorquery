@@ -8,7 +8,8 @@ class XMLMirrorQueryDataStructureFormatter extends MirrorQueryDataStructureForma
     use XMLDataStructureFormatterTrait;
 
     public const NAME = 'xml';
-    public static function getName() {
+    public static function getName()
+    {
         return self::NAME;
     }
 }

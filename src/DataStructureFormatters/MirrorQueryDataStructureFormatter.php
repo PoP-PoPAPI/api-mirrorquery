@@ -10,7 +10,8 @@ use PoP\ComponentModel\State\ApplicationState;
 class MirrorQueryDataStructureFormatter extends AbstractJSONDataStructureFormatter
 {
     public const NAME = 'mirrorquery';
-    public static function getName() {
+    public static function getName()
+    {
         return self::NAME;
     }
 
@@ -101,11 +102,10 @@ class MirrorQueryDataStructureFormatter extends AbstractJSONDataStructureFormatt
             foreach ($dbObjectIDorIDs as $dbObjectID) {
                 // Add a new array for this DB object, where to return all its properties
                 $ret[] = [];
-                $dbObjectRet = &$ret[count($ret)-1];
+                $dbObjectRet = &$ret[count($ret) - 1];
                 $this->addDBObjectData($dbObjectRet, $propertyFields, $nestedFields, $databases, $unionDBKeyIDs, $dbObjectID, $dbObjectKeyPath, $dbKeyPaths, $concatenateField);
             }
-        }
-        else {
+        } else {
             $dbObjectID = $dbObjectIDorIDs;
             $this->addDBObjectData($ret, $propertyFields, $nestedFields, $databases, $unionDBKeyIDs, $dbObjectID, $dbObjectKeyPath, $dbKeyPaths, $concatenateField);
         }
@@ -158,7 +158,7 @@ class MirrorQueryDataStructureFormatter extends AbstractJSONDataStructureFormatt
                         $dbObjectRet[$nestedFieldOutputKey] = $dbObject[$nestedFieldOutputKey];
                     } else {
                         // The first field, "id", needs not be concatenated. All the others do need
-                        $nextField = ($concatenateField ? $dbObjectKeyPath.'.' : '').$nestedFieldOutputKey;
+                        $nextField = ($concatenateField ? $dbObjectKeyPath . '.' : '') . $nestedFieldOutputKey;
 
                         // The type with ID may be stored under $unionDBKeyIDs
                         $unionDBKeyID = $unionDBKeyIDs[$dbKey][$dbObjectID][$nestedFieldOutputKey];

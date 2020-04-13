@@ -8,7 +8,8 @@ class PropertyMirrorQueryDataStructureFormatter extends MirrorQueryDataStructure
     use PropertyDataStructureFormatterTrait;
 
     public const NAME = 'props';
-    public static function getName() {
+    public static function getName()
+    {
         return self::NAME;
     }
 }
