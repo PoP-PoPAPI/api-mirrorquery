@@ -30,6 +30,6 @@ class Component extends AbstractComponent
     {
         parent::doInitialize();
         self::initYAMLServices(dirname(__DIR__));
-        ServiceConfiguration::init();
+        ServiceConfiguration::initialize();
     }
 }
