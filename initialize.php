@@ -1,2 +1,2 @@
 <?php
-\PoP\APIMirrorQuery\Component::init();
+//\PoP\APIMirrorQuery\Component::initialize();

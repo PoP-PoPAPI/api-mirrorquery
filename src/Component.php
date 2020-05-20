@@ -14,6 +14,13 @@ use PoP\Root\Component\YAMLServicesTrait;
 class Component extends AbstractComponent
 {
     // const VERSION = '0.1.0';
+
+    public static function getDependedComponentClasses(): array
+    {
+        return [
+            \PoP\API\Component::class,
+        ];
+    }
     use YAMLServicesTrait;
     /**
      * Initialize services
