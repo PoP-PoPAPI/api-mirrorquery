@@ -20,12 +20,13 @@ Via Composer
 composer require getpop/api-mirrorquery
 ```
 
-<!--
 ## Usage
 
+Initialize the component:
+
 ``` php
+\PoP\APIMirrorQuery\Component::initialize();
 ```
--->
 
 ## Standards
 
