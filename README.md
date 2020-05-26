@@ -25,7 +25,9 @@ composer require getpop/api-mirrorquery
 Initialize the component:
 
 ``` php
-\PoP\APIMirrorQuery\Component::initialize();
+\PoP\Root\ComponentLoader::initializeComponents([
+    \PoP\APIMirrorQuery\Component::class,
+]);
 ```
 
 ## Standards
