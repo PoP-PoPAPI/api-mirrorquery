@@ -116,6 +116,13 @@ class MirrorQueryDataStructureFormatter extends AbstractJSONDataStructureFormatt
 
     protected function addDBObjectData(&$dbObjectRet, $propertyFields, $nestedFields, &$databases, &$unionDBKeyIDs, $dbObjectID, $dbObjectKeyPath, &$dbKeyPaths, $concatenateField)
     {
+        // If there are no property fields and no nestedFields, then do nothing.
+        // Otherwise, it could throw an error on `extractDBObjectTypeAndID`
+        // because it only has the ID and not the name of the type
+        // Eg: When a validation on the last field fails, such as: /?query=posts.id(
+        if (!$propertyFields && !$nestedFields) {
+            return;
+        }
         // Execute for all fields other than the first one, "root", for both UnionTypeResolvers and non-union ones
         // This is because if it's a relational field that comes after a UnionTypeResolver, its dbKey could not be inferred (since it depends from the dbObject, and can't be obtained in the settings, where "dbkeys" is obtained and which doesn't depend on data items)
         // Eg: /?query=content.comments.id. In this case, "content" is handled by UnionTypeResolver, and "comments" would not be found since its entry can't be added under "datasetmodulesettings.dbkeys", since the module (of class AbstractRelationalFieldQueryDataModuleProcessor) with a UnionTypeResolver can't resolve the 'succeeding-typeResolver' to set to its submodules
