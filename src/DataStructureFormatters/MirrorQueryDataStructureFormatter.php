@@ -178,7 +178,7 @@ class MirrorQueryDataStructureFormatter extends AbstractJSONDataStructureFormatt
                         $nextField = ($concatenateField ? $dbObjectKeyPath . '.' : '') . $nestedFieldOutputKey;
 
                         // The type with ID may be stored under $unionDBKeyIDs
-                        $unionDBKeyID = $unionDBKeyIDs[$dbKey][$dbObjectID][$nestedFieldOutputKey];
+                        $unionDBKeyID = $unionDBKeyIDs[$dbKey][$dbObjectID][$nestedFieldOutputKey] ?? null;
 
                         // Add a new subarray for the nested property
                         $dbObjectNestedPropertyRet = &$dbObjectRet[$nestedFieldOutputKey];
