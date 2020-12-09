@@ -23,7 +23,7 @@ class MirrorQueryDataStructureFormatter extends AbstractJSONDataStructureFormatt
     {
         // Allow REST to override with default fields
         $vars = ApplicationState::getVars();
-        return $vars['requested-query'] ?? $vars['query'];
+        return $vars['requested-query'] ?? $vars['query'] ?? [];
     }
 
     public function getFormattedData($data)
