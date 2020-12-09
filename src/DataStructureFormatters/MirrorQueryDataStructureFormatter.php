@@ -99,7 +99,13 @@ class MirrorQueryDataStructureFormatter extends AbstractJSONDataStructureFormatt
             ARRAY_FILTER_USE_KEY
         );
         // All other fields must be nested, to keep fetching data for the object relationships
-        $nestedFields = array_diff($fields, $propertyFields);
+        $nestedFields = array_filter(
+            $fields,
+            function ($key) {
+                return !is_numeric($key);
+            },
+            ARRAY_FILTER_USE_KEY
+        );
 
         // The results can be a single ID or value, or an array of IDs
         if (is_array($dbObjectIDorIDs)) {
